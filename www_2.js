@@ -6,10 +6,8 @@ const url = require("url");
 const path = require("path");
 const dateEt = require("./src/dateTimeET");
 const oldSayings = require("./src/readFile");
-
 const pageHead = '<!DOCTYPE html>\n<html lang="et">\n<head>\n\t<meta charset="utf-8">\n<title>Leht</title>\n</head>\n\t<body>';
 const pageBanner = '<img src="/vp_banner_2025_TA.jpg" alt="kursuse bänner">';
-const thumbsup = '<img src="/thumbsup.jpg" alt="thumbsup">';
 const pageLink = '\n\t<p>Vaata <a href="/vanasonad/">vanasõnasid</a>.</p>';
 const pageBody = '\n<h1>Leht</h1>\n<p>See on leht, midagi uhket siit ei leia. <a href="https://www.tlu.ee">TLÜ</a></p><hr>';
 const pageFoot = '\n</body>\n</html>';
@@ -22,13 +20,11 @@ http.createServer(function(req, res) {
 
     if (currentUrl.pathname === "/") {
         res.writeHead(200, {"Content-type": "text/html"});
-        res.write(pageHead);
-        res.write(pageBanner);
+    res.write(pageHead);
+    res.write(pageBanner);
         res.write(pageBody);
         res.write("\n<p> Täna on " + dateEt.weekDay() + ", " + dateEt.date() + "</p>");
         res.write(pageLink);
-        res.write("<a href='/kodune/'>Kodune töö</a>")
-        res.write(pageFoot);
         return res.end();
 
     } else if (currentUrl.pathname === "/vanasonad/") {
@@ -51,16 +47,7 @@ http.createServer(function(req, res) {
     res.write(pageFoot);
     return res.end();
 
-} else if (currentUrl.pathname === "/kodune/") {
-    res.writeHead(200, {"Content-type": "text/html"});
-    res.write(pageHead);
-    res.write(thumbsup);
-    res.write("<p> Oskan ka veel ühe lehe lisada</p>");
-    res.write("<p>Tagasi <a href='http://greeny.cs.tlu.ee:5118'>pealehele</a>.</p>");
-    res.write(pageFoot);
-    return res.end();
-
-} else if (path.extname(currentUrl.pathname) === ".jpg") {
+} else if (currentUrl.pathname === "/vp_banner_2025_TA.jpg") {
     //liidame muidu kättesaamatu piltide kausta meie veebi failiteega
     let bannerPath = path.join(__dirname, "images");
     fs.readFile(bannerPath + currentUrl.pathname, (err, data) => {
